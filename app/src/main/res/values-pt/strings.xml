@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Controle De Estoque</string>
+
+    <string name="action_settings">Configurações</string>
+    <string name="product_name">Nome do produto</string>
+    <string name="product_description">Descrição</string>
+    <string name="product_quantity">Quantidade</string>
+    <string name="minimum_quantity">Quantidade mínima</string>
+    <string name="product_price">Preço</string>
+    <string name="lbl_add">Adicionar um novo produto</string>
+    <string name="lbl_save">Salvar</string>
+    <string name="msg_required">Campo obrigatório!</string>
+    <string name="msg_successfully_saved">Produto salvo com sucesso!</string>
+    <string name="lbl_delete">Excluir</string>
+    <string name="lbl_edit">Editar</string>
+    <string name="confirm_message">Confirmar</string>
+    <string name="confirm_delete">Tem certeza que deseja excluir esse produto?</string>
+    <string name="lbl_yes">Sim</string>
+    <string name="succesfully_deleted">Excluído com sucesso!</string>
+    <string name="lbl_no">Não</string>
+    <string name="msg_select_product_image">Selecione a imagem do produto</string>
+    <string name="msg_saving_product">Salvando o produto...</string>
+    <string name="update_product_list">Atualizando a lista de produtos...</string>
+    <string name="lbl_product_name">Nome:</string>
+    <string name="lbl_price">Preço:</string>
+    <string name="lbl_quantity">Quantidade:</string>
+    <string name="lbl_insert_new_product">Insira um novo produto</string>
+    <string name="alert_message_quantities">A quantidade não deve ser menor que a quantidade mínima informada!</string>
+</resources>
