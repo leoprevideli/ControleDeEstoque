@@ -82,5 +82,4 @@ public class ProductService {
             Log.e(ProductService.class.getName(), e.getMessage());
         }
     }
-
 }

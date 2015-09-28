@@ -29,13 +29,13 @@ public class ProductContract {
         sql.append(" ( ");
         sql.append(ID + " INTEGER PRIMARY KEY, ");
         sql.append(IDWEB + " INTEGER UNIQUE, ");
-        sql.append(IMAGE + " TEXT NOT NULL, ");
-        sql.append(NAME + " TEXT NOT NULL, ");
-        sql.append(DESCRIPTION + " TEXT NOT NULL, ");
-        sql.append(QUANTITY + " INTEGER NOT NULL, ");
-        sql.append(MIN_QUANTITY + " INTEGER NOT NULL, ");
-        sql.append(PRICE + " REAL NOT NULL,");
-        sql.append(DATE + " INTEGER NOT NULL ");
+        sql.append(IMAGE + " TEXT, ");
+        sql.append(NAME + " TEXT, ");
+        sql.append(DESCRIPTION + " TEXT, ");
+        sql.append(QUANTITY + " INTEGER, ");
+        sql.append(MIN_QUANTITY + " INTEGER, ");
+        sql.append(PRICE + " REAL,");
+        sql.append(DATE + " INTEGER ");
         sql.append(" ); ");
         return sql.toString();
     }

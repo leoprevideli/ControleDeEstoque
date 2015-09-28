@@ -1,5 +1,8 @@
 package br.com.cast.turmaformacao.controledeestoque.model.services;
 
+import android.text.format.DateFormat;
+
+import java.util.Date;
 import java.util.List;
 
 import br.com.cast.turmaformacao.controledeestoque.model.entities.Product;
@@ -24,13 +27,13 @@ public final class ProductBusinessService {
         ProductRepository.delete(product);
     }
 
-    public static long getProductByWebId(long webId) {
+    public static Product getProductByWebId(long webId) {
         Product product =  ProductRepository.getProductByWebId(webId);
         if(product == null){
-            return 0;
+            return null;
         }
         else{
-            return product.getId();
+            return product;
         }
     }
 
@@ -40,12 +43,21 @@ public final class ProductBusinessService {
 
     public static void saveWebProducts(List<Product> webProducts){
         for (Product product : webProducts) {
-            long verifyProductId = ProductBusinessService.getProductByWebId(product.getIdWeb());
-            if (verifyProductId > 0) { //update
-                product.setId(verifyProductId);
+            Product verifyProductId = ProductBusinessService.getProductByWebId(product.getIdWeb());
+
+            if (verifyProductId != null) { //update
+                if(product.getDate() > verifyProductId.getDate()){
+                    product.setId(verifyProductId.getId());
+                    ProductBusinessService.save(product);
+                }
             }
-            ProductBusinessService.save(product);
+            else{
+                ProductBusinessService.save(product);
+            }
+
         }
     }
+
+
 
 }
