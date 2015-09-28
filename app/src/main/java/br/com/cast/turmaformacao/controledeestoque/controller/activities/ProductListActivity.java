@@ -21,6 +21,7 @@ import br.com.cast.turmaformacao.controledeestoque.R;
 import br.com.cast.turmaformacao.controledeestoque.controller.adapters.ProductListAdapter;
 import br.com.cast.turmaformacao.controledeestoque.controller.asynctasks.DeleteProductTask;
 import br.com.cast.turmaformacao.controledeestoque.controller.asynctasks.FindProductsTask;
+import br.com.cast.turmaformacao.controledeestoque.controller.asynctasks.GetAllProductsFromWebTask;
 import br.com.cast.turmaformacao.controledeestoque.model.entities.Product;
 import br.com.cast.turmaformacao.controledeestoque.model.services.ProductBusinessService;
 
@@ -80,8 +81,33 @@ public class ProductListActivity extends AppCompatActivity {
             case R.id.menu_add:
                 onMenuAddClick();
                 break;
+            case R.id.menu_get_products:
+                refreshList();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void refreshList() {
+
+        new GetAllProductsFromWebTask() {
+            private ProgressDialog progressDialog;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressDialog = new ProgressDialog(ProductListActivity.this);
+                progressDialog.setMessage("Searching products...");
+                progressDialog.show();
+            }
+
+            @Override
+            protected void onPostExecute(Void result) {
+                super.onPostExecute(result);
+                updateList();
+                progressDialog.dismiss();
+            }
+        }.execute();
     }
 
     private void onMenuAddClick() {

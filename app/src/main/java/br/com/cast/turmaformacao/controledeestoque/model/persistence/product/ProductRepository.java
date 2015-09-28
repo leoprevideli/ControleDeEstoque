@@ -55,4 +55,19 @@ public class ProductRepository {
         db.close();
         databaseHelper.close();
     }
+
+    public static Product getProductByWebId(long webId){
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance();
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+
+        String where = ProductContract.IDWEB + " = ? ";
+        String[] params = {String.valueOf(webId)};
+
+        Cursor cursor = db.query(ProductContract.TABLE, ProductContract.COLUMNS, where, params, null, null, null);
+        Product returnProduct = ProductContract.getProduct(cursor);
+
+        db.close();
+        databaseHelper.close();
+        return returnProduct;
+    }
 }

@@ -4,14 +4,19 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Date;
+
 import br.com.cast.turmaformacao.controledeestoque.R;
+import br.com.cast.turmaformacao.controledeestoque.controller.asynctasks.SaveProductOnWebTask;
 import br.com.cast.turmaformacao.controledeestoque.model.entities.Product;
+import br.com.cast.turmaformacao.controledeestoque.model.http.ProductService;
 import br.com.cast.turmaformacao.controledeestoque.model.services.ProductBusinessService;
 import br.com.cast.turmaformacao.controledeestoque.util.FormHelper;
 
@@ -25,6 +30,7 @@ public class ProductFormActivity extends AppCompatActivity {
     private EditText editTextMinQuantity;
     private EditText editTextPrice;
     private View imageViewColor;
+    private EditText editTextDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,7 @@ public class ProductFormActivity extends AppCompatActivity {
         bindEditTextMinQuantity();
         bindEditTextPrice();
         bindViewImage();
+        bindEditTextDate();
     }
 
     private void initProduct() {
@@ -73,6 +80,11 @@ public class ProductFormActivity extends AppCompatActivity {
         editTextPrice.setText(product.getPrice() == null ? "" : Double.toString(product.getPrice()));
     }
 
+    private void bindEditTextDate(){
+        editTextDate = (EditText) findViewById(R.id.product_form_et_date);
+        editTextDate.setText(product.getDate() == null ? "" : convertLongToDate(product.getDate()));
+    }
+
     private void bindViewImage(){
         imageViewColor = (View) findViewById(R.id.imageViewColor);
     }
@@ -98,10 +110,10 @@ public class ProductFormActivity extends AppCompatActivity {
     private void onMenuSaveClick() {
         String requiredMessage = getString(R.string.msg_required);
         String alertMessage = getString(R.string.alert_message_quantities);
-        if (!FormHelper.checkRequireFields(requiredMessage, editTextName, editTextDescription, editTextQuantity, editTextMinQuantity, editTextPrice)) {
+        if (!FormHelper.checkRequireFields(requiredMessage, editTextName, editTextDescription, editTextQuantity, editTextMinQuantity, editTextPrice, editTextDate)) {
             if(!FormHelper.checkMinimumQuantity(alertMessage, editTextMinQuantity, editTextQuantity)){
                 bindProduct();
-                new SaveProduct().execute(product);
+                new SaveProductOnWebTask().execute(product);
             }
         }
     }
@@ -113,6 +125,7 @@ public class ProductFormActivity extends AppCompatActivity {
         product.setMinQuantity(Integer.parseInt(editTextMinQuantity.getText().toString()));
         product.setPrice(Double.parseDouble(editTextPrice.getText().toString()));
         product.setImage(imageViewColor.getBackground().toString());
+        product.setDate(Long.parseLong("11111111111111"));//TODO Tirar MOCK
     }
 
     private class SaveProduct extends AsyncTask<Product, Void, Void> {
@@ -139,5 +152,12 @@ public class ProductFormActivity extends AppCompatActivity {
             ProductFormActivity.this.finish();
         }
     }
+
+    private String convertLongToDate(Long dateFromWeb){
+        String longDate = dateFromWeb.toString();
+        long millisecond = Long.parseLong(longDate);
+        return DateFormat.format("dd/MM/yyyy", new Date(millisecond)).toString();
+    }
+
 
 }

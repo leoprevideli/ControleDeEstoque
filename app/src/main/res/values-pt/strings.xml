@@ -27,4 +27,6 @@
     <string name="lbl_quantity">Quantidade:</string>
     <string name="lbl_insert_new_product">Insira um novo produto</string>
     <string name="alert_message_quantities">A quantidade não deve ser menor que a quantidade mínima informada!</string>
+    <string name="msg_deletting_product">Excluindo produto...</string>
+    <string name="lbl_date">Date</string>
 </resources>

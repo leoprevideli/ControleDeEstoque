@@ -8,4 +8,10 @@
         android:title="@string/lbl_add"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/menu_get_products"
+        android:icon="@mipmap/ic_action_done"
+        android:title="Refresh"
+        app:showAsAction="always" />
+
 </menu>
