@@ -15,6 +15,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.melnykov.fab.FloatingActionButton;
+
 import java.util.List;
 
 import br.com.cast.turmaformacao.controledeestoque.R;
@@ -30,6 +32,7 @@ public class ProductListActivity extends AppCompatActivity {
 
     private ListView listViewProducts;
     private Product selectedProduct;
+    private FloatingActionButton fabAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +40,14 @@ public class ProductListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_list);
 
         bindProductList();
+        bindFab();
     }
 
     @Override
     protected void onResume() {
-        new UpdateProductList().execute();
+        //TODO Tirar comentário daqui... refreshList(); //get from web
+        new UpdateProductList().execute(); // get from database
+
         super.onResume();
     }
 
@@ -74,20 +80,6 @@ public class ProductListActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.menu_add:
-                onMenuAddClick();
-                break;
-            case R.id.menu_get_products:
-                refreshList();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     private void refreshList() {
 
         new GetAllProductsFromWebTask() {
@@ -108,11 +100,6 @@ public class ProductListActivity extends AppCompatActivity {
                 progressDialog.dismiss();
             }
         }.execute();
-    }
-
-    private void onMenuAddClick() {
-        Intent goToProductFormActivity = new Intent(ProductListActivity.this, ProductFormActivity.class);
-        startActivity(goToProductFormActivity);
     }
 
     @Override
@@ -193,6 +180,17 @@ public class ProductListActivity extends AppCompatActivity {
             updateList();
             progressDialog.dismiss();
         }
+    }
+
+    private void bindFab(){
+        fabAdd = (FloatingActionButton) findViewById(R.id.fabAdd);
+        fabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goToProductFormActivity = new Intent(ProductListActivity.this, ProductFormActivity.class);
+                startActivity(goToProductFormActivity);
+                    }
+            });
     }
 
 }

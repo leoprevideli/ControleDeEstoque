@@ -113,27 +113,30 @@ public class ProductFormActivity extends AppCompatActivity {
         if (!FormHelper.checkRequireFields(requiredMessage, editTextName, editTextDescription, editTextQuantity, editTextMinQuantity, editTextPrice, editTextDate)) {
             if(!FormHelper.checkMinimumQuantity(alertMessage, editTextMinQuantity, editTextQuantity)){
                 bindProduct();
-                new SaveProductOnWebTask(){
-
-                    private ProgressDialog progressDialog;
-
-                    @Override
-                    protected void onPreExecute() {
-                        super.onPreExecute();
-                        progressDialog = new ProgressDialog(ProductFormActivity.this);
-                        progressDialog.setMessage(getString(R.string.msg_saving_product));
-                        progressDialog.show();
-                    }
-
-                    @Override
-                    protected void onPostExecute(Void aVoid) {
-                        super.onPostExecute(aVoid);
-                        progressDialog.dismiss();
-                        Toast.makeText(ProductFormActivity.this, getString(R.string.msg_successfully_saved), Toast.LENGTH_LONG).show();
-                        ProductFormActivity.this.finish();
-                    }
-
-                }.execute(product);
+                new SaveProduct().execute(product); //save on database
+                //TODO tirar comentário web
+                //save on cloud
+//                new SaveProductOnWebTask(){
+//
+//                    private ProgressDialog progressDialog;
+//
+//                    @Override
+//                    protected void onPreExecute() {
+//                        super.onPreExecute();
+//                        progressDialog = new ProgressDialog(ProductFormActivity.this);
+//                        progressDialog.setMessage(getString(R.string.msg_saving_product));
+//                        progressDialog.show();
+//                    }
+//
+//                    @Override
+//                    protected void onPostExecute(Void aVoid) {
+//                        super.onPostExecute(aVoid);
+//                        progressDialog.dismiss();
+//                        Toast.makeText(ProductFormActivity.this, getString(R.string.msg_successfully_saved), Toast.LENGTH_LONG).show();
+//                        ProductFormActivity.this.finish();
+//                    }
+//
+//                }.execute(product);
             }
         }
     }

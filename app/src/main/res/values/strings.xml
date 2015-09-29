@@ -28,4 +28,5 @@
     <string name="alert_message_quantities">The quantity should not be smaller than the informed minimum quantity !</string>
     <string name="msg_deletting_product">Deleting product...</string>
     <string name="lbl_date">Date</string>
+    <string name="lbl_products">Products</string>
 </resources>

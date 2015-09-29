@@ -1,6 +1,8 @@
 package br.com.cast.turmaformacao.controledeestoque.controller.adapters;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -47,6 +49,9 @@ public class ProductListAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         Product product = getItem(i);
         View productListItemView = context.getLayoutInflater().inflate(R.layout.product_list_item, null);
+
+        View imageView = (View) productListItemView.findViewById(R.id.product_list_vw_image);
+        imageView.setBackgroundColor(Color.GRAY);
 
         TextView productName = (TextView) productListItemView.findViewById(R.id.productName);
         productName.setText(" " + product.getName());
