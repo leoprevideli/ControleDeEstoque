@@ -20,7 +20,11 @@ public final class ProductBusinessService {
     }
 
     public static List<Product> getAll(){
-        return  ProductRepository.getAll();
+        return ProductRepository.getAll();
+    }
+
+    public static List<Product> getAllFiltered(Product product){
+        return ProductRepository.getAllFiltered(product);
     }
 
     public static void delete(Product product){

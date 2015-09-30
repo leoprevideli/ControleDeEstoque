@@ -20,6 +20,6 @@
     <color name="gray">#e4e4e4</color>
     <color name="material_red_600">#E53935</color>
 
-    <color name="material_floating_button_400">#00E676</color>
-    <color name="material_floating_button_700">#00C853</color>
+    <color name="material_floating_button_500">#3F51B5</color>
+    <color name="material_floating_button_700">#303F9F</color>
 </resources>

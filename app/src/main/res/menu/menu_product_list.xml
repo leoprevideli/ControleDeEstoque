@@ -3,15 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".ProductListActivity">
 
     <item
-        android:id="@+id/menu_add"
+        android:id="@+id/menu_filter"
         android:icon="@mipmap/ic_action_add"
-        android:title="@string/lbl_add"
+        android:title="@string/lbl_filter"
         app:showAsAction="always" />
 
-    <item
-        android:id="@+id/menu_get_products"
-        android:icon="@mipmap/ic_action_done"
-        android:title="Refresh"
-        app:showAsAction="always" />
 
 </menu>

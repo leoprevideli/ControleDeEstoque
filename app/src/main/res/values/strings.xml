@@ -29,4 +29,6 @@
     <string name="msg_deletting_product">Deleting product...</string>
     <string name="lbl_date">Date</string>
     <string name="lbl_products">Products</string>
+    <string name="lbl_filter">Filter</string>
+    <string name="filtering_products">Filtering products...</string>
 </resources>

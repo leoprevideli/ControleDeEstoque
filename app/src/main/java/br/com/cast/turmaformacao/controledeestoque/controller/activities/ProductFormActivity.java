@@ -14,9 +14,7 @@ import android.widget.Toast;
 import java.util.Date;
 
 import br.com.cast.turmaformacao.controledeestoque.R;
-import br.com.cast.turmaformacao.controledeestoque.controller.asynctasks.SaveProductOnWebTask;
 import br.com.cast.turmaformacao.controledeestoque.model.entities.Product;
-import br.com.cast.turmaformacao.controledeestoque.model.http.ProductService;
 import br.com.cast.turmaformacao.controledeestoque.model.services.ProductBusinessService;
 import br.com.cast.turmaformacao.controledeestoque.util.FormHelper;
 
@@ -114,7 +112,7 @@ public class ProductFormActivity extends AppCompatActivity {
             if(!FormHelper.checkMinimumQuantity(alertMessage, editTextMinQuantity, editTextQuantity)){
                 bindProduct();
                 new SaveProduct().execute(product); //save on database
-                //TODO tirar comentário web
+                //TODO tirar comentï¿½rio web
                 //save on cloud
 //                new SaveProductOnWebTask(){
 //

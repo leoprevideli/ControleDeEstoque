@@ -8,10 +8,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -22,6 +24,7 @@ import java.util.List;
 import br.com.cast.turmaformacao.controledeestoque.R;
 import br.com.cast.turmaformacao.controledeestoque.controller.adapters.ProductListAdapter;
 import br.com.cast.turmaformacao.controledeestoque.controller.asynctasks.DeleteProductTask;
+import br.com.cast.turmaformacao.controledeestoque.controller.asynctasks.FilterProductListTask;
 import br.com.cast.turmaformacao.controledeestoque.controller.asynctasks.FindProductsTask;
 import br.com.cast.turmaformacao.controledeestoque.controller.asynctasks.GetAllProductsFromWebTask;
 import br.com.cast.turmaformacao.controledeestoque.model.entities.Product;
@@ -45,7 +48,7 @@ public class ProductListActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        //TODO Tirar comentário daqui... refreshList(); //get from web
+        //TODO Tirar comentï¿½rio daqui... refreshList(); //get from web
         new UpdateProductList().execute(); // get from database
 
         super.onResume();
@@ -58,6 +61,16 @@ public class ProductListActivity extends AppCompatActivity {
             listViewProducts.setAdapter(adapter);
         }
         adapter.setDataValues(ProductBusinessService.getAll());
+        adapter.notifyDataSetChanged();
+    }
+
+    private void updateFilteredList(List<Product> products) {
+        ProductListAdapter adapter = (ProductListAdapter) listViewProducts.getAdapter();
+        if (adapter == null) {
+            adapter = new ProductListAdapter(this);
+            listViewProducts.setAdapter(adapter);
+        }
+        adapter.setDataValues(products);
         adapter.notifyDataSetChanged();
     }
 
@@ -78,6 +91,18 @@ public class ProductListActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_product_list, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.menu_filter:
+                createFilterDialog();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void refreshList() {
@@ -191,6 +216,54 @@ public class ProductListActivity extends AppCompatActivity {
                 startActivity(goToProductFormActivity);
                     }
             });
+    }
+
+    private void createFilterDialog(){
+        LayoutInflater li = ProductListActivity.this.getLayoutInflater();
+
+        View view = li.inflate(R.layout.filter_layout, null);
+        final EditText filter_et_name = (EditText) view.findViewById(R.id.filter_et_name);
+        final EditText filter_et_description = (EditText) view.findViewById(R.id.filter_et_description);
+        final EditText filter_et_quantity = (EditText) view.findViewById(R.id.filter_et_quantity);
+        final EditText filter_et_min_quantity = (EditText) view.findViewById(R.id.filter_et_min_quantity);
+        final EditText filter_et_price = (EditText) view.findViewById(R.id.filter_et_price);
+
+        new AlertDialog.Builder(ProductListActivity.this)
+            .setView(view)
+            .setTitle(R.string.lbl_filter)
+            .setPositiveButton("Search",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Product filterProduct = new Product();
+                            filterProduct.setName(filter_et_name.getText() == null ? "" : filter_et_name.getText().toString());
+                            filterProduct.setDescription(filter_et_description.getText() == null ? "" : filter_et_description.getText().toString());
+                            filterProduct.setQuantity(filter_et_quantity.getText().toString().equals("") ? null : Integer.parseInt(filter_et_quantity.getText().toString()));
+                            filterProduct.setMinQuantity(filter_et_min_quantity.getText().toString().equals("") ? null : Integer.parseInt(filter_et_min_quantity.getText().toString()));
+                            filterProduct.setPrice(filter_et_price.getText().toString().equals("") ? null : Double.parseDouble(filter_et_price.getText().toString()));
+
+                            new FilterProductListTask(){
+                                private ProgressDialog progressDialog;
+
+                                @Override
+                                protected void onPreExecute() {
+                                    super.onPreExecute();
+                                    progressDialog = new ProgressDialog(ProductListActivity.this);
+                                    progressDialog.setMessage(getString(R.string.filtering_products));
+                                    progressDialog.show();
+                                }
+
+                                @Override
+                                protected void onPostExecute(List<Product> products) {
+                                    super.onPostExecute(products);
+                                    updateFilteredList(products);                                    progressDialog.dismiss();
+                                }
+                            }.execute(filterProduct);
+                        }
+                }).setNeutralButton("Cancel", null)
+                .create()
+            .show();
+
     }
 
 }

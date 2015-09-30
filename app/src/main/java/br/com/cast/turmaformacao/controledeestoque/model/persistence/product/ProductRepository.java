@@ -27,6 +27,24 @@ public class ProductRepository {
         return products;
     }
 
+    public static List<Product> getAllFiltered(Product product){
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance();
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+
+        String where = ProductContract.NAME + " = ? AND " + ProductContract.DESCRIPTION + " = ? AND "
+                + ProductContract.QUANTITY + " = ? AND " + ProductContract.MIN_QUANTITY + " = ? AND "
+                + ProductContract.PRICE + " = ?";
+        String[] params = {String.valueOf(product.getName()), String.valueOf(product.getDescription()),
+                product.getQuantity() == null ? null : String.valueOf(product.getQuantity()), product.getMinQuantity() == null ? null :  String.valueOf(product.getMinQuantity()),
+                product.getPrice() == null ? null : String.valueOf(product.getPrice())};
+
+        Cursor cursor = db.query(ProductContract.TABLE, ProductContract.COLUMNS, where, params, null, null, null);
+        List<Product> products = ProductContract.getProducts(cursor);
+
+        db.close();
+        databaseHelper.close();
+        return products;
+    }
     public static void save(Product product) {
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance();
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
